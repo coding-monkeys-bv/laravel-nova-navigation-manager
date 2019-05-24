@@ -115,6 +115,9 @@ class NavigationManagerController extends Controller
         $navigation = Navigation::find(request('id'));
         $navigation->update($data);
 
+        // Refresh cache.
+        $this->refreshCache(request('id'));
+
         return response()->json($navigation);
     }
 
@@ -129,6 +132,9 @@ class NavigationManagerController extends Controller
         $navigation = Navigation::find($id);
         $navigation->delete();
 
+        // Clear cache.
+        $this->clearCache($id);
+
         return response()->json([
             'success' => true,
             'message' => 'The navigation has been deleted',
@@ -138,12 +144,39 @@ class NavigationManagerController extends Controller
     /**
      * Flush navigation caches when asked for.
      *
-     * @param int   $navigationId
+     * @param int   $id
      *
      * @return void
      */
-    public function clearCache($navigationId)
+    public function clearCache($id)
     {
-        Cache::forget('navigation_'.$navigationId);
+        Cache::forget('navigation_'.$id);
+    }
+
+    /**
+     * Refresh navigation cache.
+     */
+    public function refreshCache($id)
+    {
+        // Cache the navigation JSON for 15 minutes.
+        $parents = Cache::remember('navigation_'.$id, 15, function () use ($id) {
+
+            // Get all navigation items with child items.
+            $items = NavigationItem::where('navigation_id', $id)
+                    ->where('parent_id', null)
+                    ->orderBy('order')
+                    ->with(['children' => function ($query) {
+                        $query->orderBy('order');
+                    }])
+                    ->get();
+
+            return $items;
+        });
+
+        foreach ($parents as $parent) {
+            $parent->editable = false;
+        }
+
+        return response()->json($parents);
     }
 }
