@@ -67,6 +67,6 @@ If you'd like, we're happy to accept PR's ;-)
 ## About Voicecode B.V.
 
 Voicecode B.V.  
-Faradaystraat 11 .  
+Faradaystraat 11 . 
 2014 EN Haarlem . 
-The Netherlands . 
+The Netherlands
