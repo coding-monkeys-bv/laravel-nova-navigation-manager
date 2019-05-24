@@ -14,7 +14,7 @@
                                 {{ __('Selecteer een navigatie') }}
                             </h1>
                             <ul class="navigations-list w-full cursor-pointer">
-                                <li v-for="(navigation, index) in navigations" class="cursor-pointer p-2" @click="selectNavigation(navigation)">{{ navigation.name }}</li>
+                                <li v-for="(navigation, index) in navigations" class="cursor-pointer p-2" @click="selectNavigation(navigation)">{{ navigation.id }} {{ navigation.name }}</li>
                             </ul>
                         </div>
                     </card>

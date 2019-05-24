@@ -1,6 +1,6 @@
 # Navigation Manager for Laravel Nova
 
-Create a navigation structure using the Navigation Manager.
+Create a navigation structure using the Navigation Manager. When creating a CMS using Laravel Nova, this package can be used for creating multiple navigations.
 
 # Installation 
 
@@ -50,3 +50,16 @@ You can add these lines to your localization json files.
 "Item Name": "Item Naam"
 ```
 
+## Caching
+
+This package uses caching, so you don't have to fetch data from your database on every pageload. You can access the cached values for every single navigation using:
+
+```
+cache('navigation_'.$id);
+```
+
+
+## Know issues
+
+We're familiar with the issue which occurs when setting a max level higher than 2 not to work correctly. 
+If you'd like, we're happy to accept PR's ;-)
