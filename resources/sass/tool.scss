@@ -1,0 +1,56 @@
+// Voicecode Navigation Package CSS.
+div#voicecode-navigation {
+
+    ul.navigations-list {
+        padding-left: 0;
+        list-style-type: none;
+
+        li {
+            background: white;
+            padding: 10px;
+            cursor: grab;
+        }
+
+        li:hover {
+            background: var(--primary-10);
+            transition: all 400ms;
+        }
+    }
+
+    .tree-node-inner {
+        background: var(--20);
+        cursor: pointer;
+        border-radius: .5rem;
+    }
+
+    .tree-node-inner:hover {
+        background: var(--primary-10);
+        transition: all 400ms;
+    }
+
+    span.item-name {
+        display: inline-block;
+        padding: 10px;
+        cursor: grab;
+    }
+
+    .parent-item {
+        font-weight: 800;
+        background: var(--30);
+        border-radius: .5rem;
+    }
+
+    .editable {
+        background: var(--primary-10);
+    }
+
+    .draggable-placeholder-inner{
+        border: 1px dashed var(--primary);
+        box-sizing: border-box;
+        background: var(--primary-10) !important;
+        text-align: center;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+}
