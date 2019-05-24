@@ -63,3 +63,10 @@ cache('navigation_'.$id);
 
 We're familiar with the issue which occurs when setting a max level higher than 2 not to work correctly. 
 If you'd like, we're happy to accept PR's ;-)
+
+## About Voicecode B.V.
+
+Voicecode B.V.
+Faradaystraat 11
+2014 EN Haarlem
+The Netherlands
