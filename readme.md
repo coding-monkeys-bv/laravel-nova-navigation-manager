@@ -5,7 +5,7 @@ Create a navigation structure using the Navigation Manager. When creating a CMS 
 # Installation 
 
 ```bash
-composer require voicecode/laravel-nova-navigation-manager
+composer require voicecode/navigation-manager
 ```
 
 Activating the tool via NovaServiceProvider
@@ -59,7 +59,7 @@ cache('navigation_'.$id);
 ```
 
 
-## Know issues
+## Known issues
 
 We're familiar with the issue which occurs when setting a max level higher than 2 not to work correctly. 
 If you'd like, we're happy to accept PR's ;-)
