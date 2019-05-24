@@ -8,7 +8,7 @@
                 
                 <!-- When no navigation is chosen. -->
                 <div v-if="navigation === null">
-                    <card class=" mb-6 p-6">                    
+                    <card class=" mb-6 p-6" v-if="navigations.length > 0">                    
                         <div class="flex flex-col items-center justify-center">                        
                             <h1 class="text-back text-2xl text-90 font-light mb-6">
                                 {{ __('Selecteer een navigatie') }}
