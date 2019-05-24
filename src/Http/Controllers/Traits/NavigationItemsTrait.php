@@ -44,7 +44,8 @@ trait NavigationItemsTrait
         ]);
 
         // Update the navigation item.
-        $item = NavigationItem::where('id', $itemId)->update($data);
+        $item = NavigationItem::find($itemId);
+        $item->update($data);
 
         // Refresh cache
         $this->refreshCache($navigationId);

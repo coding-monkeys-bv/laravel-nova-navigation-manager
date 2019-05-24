@@ -64,8 +64,8 @@ class NavigationManagerController extends Controller
         // Clear cache
         $this->clearCache($id);
 
-        // Cache the navigation JSON for 15 minutes.
-        $parents = Cache::remember('navigation_'.$id, 15, function () use ($id) {
+        // Cache the navigation JSON.
+        $parents = Cache::rememberForever('navigation_'.$id, function () use ($id) {
 
             // Get all navigation items with child items.
             $items = NavigationItem::where('navigation_id', $id)
@@ -158,8 +158,11 @@ class NavigationManagerController extends Controller
      */
     public function refreshCache($id)
     {
-        // Cache the navigation JSON for 15 minutes.
-        $parents = Cache::remember('navigation_'.$id, 15, function () use ($id) {
+        // Clear the current cache.
+        $this->clearCache($id);
+
+        // Cache the navigation JSON.
+        $parents = Cache::rememberForever('navigation_'.$id, function () use ($id) {
 
             // Get all navigation items with child items.
             $items = NavigationItem::where('navigation_id', $id)
