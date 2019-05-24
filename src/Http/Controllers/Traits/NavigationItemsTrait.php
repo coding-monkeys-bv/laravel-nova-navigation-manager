@@ -24,9 +24,9 @@ trait NavigationItemsTrait
 
         // Add navigation item.
         $item = NavigationItem::create($data);
-        
-        // Clear cache
-        $this->clearCache(request('navigation_id'));
+
+        // Refresh cache
+        $this->refreshCache($navigationId);
 
         return response()->json($item);
     }
@@ -46,8 +46,8 @@ trait NavigationItemsTrait
         // Update the navigation item.
         $item = NavigationItem::where('id', $itemId)->update($data);
 
-        // Clear cache
-        $this->clearCache($navigationId);
+        // Refresh cache
+        $this->refreshCache($navigationId);
 
         return response()->json($item);
     }
@@ -62,8 +62,8 @@ trait NavigationItemsTrait
             ->where('navigation_id', $navigationId)
             ->delete();
 
-        // Clear cache
-        $this->clearCache($navigationId);
+        // Refresh cache
+        $this->refreshCache($navigationId);
 
         return response()->json([
             'success' => true,
@@ -83,22 +83,20 @@ trait NavigationItemsTrait
 
         // Loop through all navigation items
         foreach ($data['items'] as $item) {
-            
             $parentId = (isset($item['parent_id'])) ? $item['parent_id'] : null;
 
             NavigationItem::where('id', $item['id'])->update([
                 'order' => $item['order'],
-                'parent_id' => $parentId
+                'parent_id' => $parentId,
             ]);
         }
 
-        // Clear cache
-        $this->clearCache($navigationId);
+        // Refresh cache
+        $this->refreshCache($navigationId);
 
         return response()->json([
             'success' => true,
             'message' => 'The positions have been updated.',
         ]);
     }
-
 }
