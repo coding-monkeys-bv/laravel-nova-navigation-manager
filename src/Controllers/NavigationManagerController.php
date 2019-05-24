@@ -9,7 +9,7 @@ use Voicecode\NavigationManager\Models\Navigation;
 use Voicecode\NavigationManager\Models\NavigationItem;
 use Voicecode\NavigationManager\Http\Controllers\Traits\NavigationItemsTrait;
 
-class NavigationController extends Controller
+class NavigationManagerController extends Controller
 {
     use NavigationItemsTrait;
 
@@ -41,9 +41,16 @@ class NavigationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        $data = request()->validate([
+            'name' => 'required|string|max:255',
+            'depth' => 'required|numeric|min:1',
+        ]);
+
+        $data = Navigation::create($data);
+
+        return response()->json($data);
     }
 
     /**
@@ -59,19 +66,19 @@ class NavigationController extends Controller
 
         // Cache the navigation JSON for 15 minutes.
         $parents = Cache::remember('navigation_'.$id, 15, function () use ($id) {
-            
+
             // Get all navigation items with child items.
             $items = NavigationItem::where('navigation_id', $id)
                     ->where('parent_id', null)
                     ->orderBy('order')
                     ->with(['children' => function ($query) {
-                            $query->orderBy('order');
+                        $query->orderBy('order');
                     }])
                     ->get();
 
             return $items;
         });
-        
+
         foreach ($parents as $parent) {
             $parent->editable = false;
         }
@@ -97,9 +104,18 @@ class NavigationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
-        //
+        $data = request()->validate([
+            'id' => 'required|numeric|min:1',
+            'name' => 'required|string|max:255',
+            'depth' => 'required|numeric|min:1',
+        ]);
+
+        $navigation = Navigation::find(request('id'));
+        $navigation->update($data);
+
+        return response()->json($navigation);
     }
 
     /**
@@ -110,7 +126,13 @@ class NavigationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $navigation = Navigation::find($id);
+        $navigation->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'The navigation has been deleted',
+        ]);
     }
 
     /**
